@@ -3,6 +3,7 @@ use rand_core::TryRng;
 use ed25519_dalek::SigningKey;
 use ed25519_dalek::Signature;
 fn main() {
+    // siging_key
     let mut csprng = UnwrapErr(SysRng);
 
     let signing_key = SigningKey::generate(&mut csprng);
