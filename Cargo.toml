@@ -7,3 +7,4 @@ edition = "2024"
 ed25519-dalek = { version = "3.0.0", features = ["rand_core"] }
 getrandom = { version = "0.4.3", features = ["sys_rng"] }
 rand_core = "0.10.1"
+ssh-key = { version = "0.6.7", features = ["alloc", "ed25519"] }
