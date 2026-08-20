@@ -33,12 +33,20 @@ fn main() {
 
     println!("private_bytes : {:?},  public_bytes : {:?}", private_bytes, public_bytes);
 
-    // OpenSSH bytes 형식으로 변경
+    // ED25519 raw bytes -> SSH bytes 형식으로 변경
     let public_key_bytes_openssh = Ed25519PublicKey::try_from(public_bytes.as_slice()).unwrap();
+    println!("public_key_bytes_openssh : {:?}", public_key_bytes_openssh);
 
-    // ssh 형식으로 변경
-    let public_key_openssh = PublicKey::from(public_key_bytes_openssh);
+    // bytes -> ssh 형식으로 변경
+    let comment = "omelet3032@gmail.com";
+    let mut public_key_openssh = PublicKey::from(public_key_bytes_openssh);
+    public_key_openssh.set_comment(comment);
+    
     println!("public_key_openssh : {:?}", public_key_openssh);
+
+    // OpenSSH 문자열 변경
+    let openssh_string = public_key_openssh.to_openssh().unwrap();
+    println!("openssh_string : {}", openssh_string);
     
 }
 
