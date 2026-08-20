@@ -12,12 +12,12 @@ fn main() {
     // private key 생성
     let signing_key = SigningKey::generate(&mut csprng);
 
+    // public key 생성
+    let verifying_key = signing_key.verifying_key();
+
     // 메시지 
     let message = b"hello world!";
     let fake_msg = b"hello world";
-
-    // public key 생성
-    let verifying_key = signing_key.verifying_key();
 
     // 서명 생성
     let signature = signing_key.sign(message);
@@ -27,15 +27,20 @@ fn main() {
     // verifying_key.verify(fake_msg, &signature).unwrap();
     println!("서명 검증 완료");
 
-    // to_bytes()
+    // Ed25519 key의 raw 32바이트
     let private_bytes = signing_key.to_bytes();
     let public_bytes = verifying_key.to_bytes();
 
     println!("private_bytes : {:?},  public_bytes : {:?}", private_bytes, public_bytes);
 
-    // OpenSSH 형식으로 변경
-    // let public_key_openssh = PublicKey::from_bytes(&public_bytes).unwrap();
-    // let verifying_key_openssh = Ed25519PublicKey::
+    // OpenSSH bytes 형식으로 변경
+    let public_key_bytes_openssh = Ed25519PublicKey::try_from(public_bytes.as_slice()).unwrap();
+
+    // ssh 형식으로 변경
+    let public_key_openssh = PublicKey::from(public_key_bytes_openssh);
     println!("public_key_openssh : {:?}", public_key_openssh);
     
 }
+
+
+
